@@ -79,6 +79,12 @@ grid-template-rows: 1fr 1fr;
 .box:hover{
     background-color: #FF2E63;
 }
+.button-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
 #play-again{
     background-color: #FF2E63;
     padding: 10px 25px ;
@@ -91,4 +97,20 @@ grid-template-rows: 1fr 1fr;
     padding: 10px 40px;
     background-color: #da3838 ;
     color: #000;
+}
+
+#toggle-mode{
+    background-color: #492a32;
+    padding: 10px 25px ;
+    border: none;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#toggle-mode:hover{
+    padding: 10px 40px;
+    background-color: #2c050f ;
+    color: #fff;
+    
 }
