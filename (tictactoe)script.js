@@ -1,6 +1,13 @@
 let boxes = document.querySelectorAll(".box");
 let turn = "X";
 let isGameOver = false;
+let isUserVsComputer = false;
+
+document.querySelector("#toggle-mode").addEventListener("click",()=>{
+    isUserVsComputer = !isUserVsComputer;
+    document.querySelector("#toggle-mode").innerText = isUserVsComputer ? "Toggle-mode (Current: User vs Computer)" : "Toggle-mode (Current: User vs User)";
+    resetGame();
+});
 
 boxes.forEach(e =>{
     e.innerHTML=""
@@ -9,10 +16,15 @@ boxes.forEach(e =>{
             e.innerHTML = turn;
             cheakWin();
             cheakDraw();
-            changeTurn();
+            if (!isGameOver){
+                changeTurn();
+                if(isUserVsComputer && turn === "O"){
+                    computerMove();
+            }
         }
-    })
-})
+        }
+    });
+});
 function changeTurn(){
     if(turn ==="X"){
         turn = "O";
@@ -40,7 +52,7 @@ for(let i = 0;i<winConditions.length;i++){
 document.querySelector("#results").innerHTML = turn + " wins";
 document.querySelector("#play-again").style.display = "inline"
 
-for(j=0; j<3; j++){
+for(let j=0; j<3; j++){
     boxes[winConditions[i][j]].style.backgroundColor = "#da3838"
     boxes[winConditions[i][j]].style.color = "#000"
 }
@@ -60,7 +72,7 @@ function cheakDraw(){
         }
     }
 }
-document.querySelector("#play-again").addEventListener("click",()=>{
+function resetGame(){
     isGameOver = false;
     turn="X";
     document.querySelector(".bg").style.left="0";
@@ -71,5 +83,24 @@ document.querySelector("#play-again").addEventListener("click",()=>{
         e.innerHTML="";
         e.style.removeProperty("background-color");
         e.style.color="#000"
-    })
-})
+    });
+}
+document.querySelector("#play-again").addEventListener("click",resetGame);
+   
+function computerMove(){
+    let emptyBoxes = [];
+    boxes.forEach((box,index)=>{
+        if(box.innerHTML === ""){
+            emptyBoxes.push(index);
+        }
+    });
+    if(emptyBoxes.length>0){
+        let randomIndex = Math.floor(Math.random()* emptyBoxes.length);
+        boxes[emptyBoxes[randomIndex]].innerHTML = turn;
+        cheakWin();
+        cheakDraw();
+        if(!isGameOver){
+            changeTurn();
+        }
+    }
+}
